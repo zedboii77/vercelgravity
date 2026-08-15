@@ -1,0 +1,6 @@
+{
+  "name": "Antigravity 2.0 Mobile Vibe Coder",
+  "description": "A mobile-first agentic coding environment and web UI designed for vibe coding on your phone and self-hosting on VPS.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
