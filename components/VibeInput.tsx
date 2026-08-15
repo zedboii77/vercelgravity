@@ -230,7 +230,7 @@ export function VibeInput({ onSendMessage, isLoading, soundEnabled }: VibeInputP
             placeholder={isRecording ? 'Listening to your voice prompt...' : 'Vibe prompt Antigravity 2.0...'}
             rows={1}
             disabled={isLoading}
-            className="w-full bg-transparent text-slate-100 placeholder-slate-500 text-sm px-2 py-2 focus:outline-none resize-none max-h-32 leading-relaxed"
+            className="w-full bg-transparent text-slate-100 placeholder-slate-500 text-xs sm:text-sm px-2 py-1.5 focus:outline-none resize-none max-h-32 leading-relaxed"
           />
         </div>
 
