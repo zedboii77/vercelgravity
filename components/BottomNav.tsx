@@ -32,7 +32,7 @@ export function BottomNav({
       label: 'Agent 2.0',
       icon: MessageSquareCode,
       badge: pendingChangesCount > 0 ? `${pendingChangesCount}` : null,
-      badgeColor: 'bg-rose-500'
+      badgeColor: 'bg-white text-black'
     },
     {
       id: 'editor' as TabType,
@@ -45,19 +45,19 @@ export function BottomNav({
       label: 'Live Preview',
       icon: Eye,
       badge: isRunning ? 'Live' : null,
-      badgeColor: 'bg-emerald-500'
+      badgeColor: 'bg-zinc-800 text-zinc-200 border border-zinc-700'
     },
     {
       id: 'user' as TabType,
       label: 'User Hub',
       icon: User,
       badge: null,
-      badgeColor: 'bg-cyan-600'
+      badgeColor: 'bg-zinc-800 text-zinc-300'
     }
   ];
 
   return (
-    <nav className="fixed bottom-0 inset-x-0 z-40 bg-[#090d16]/95 backdrop-blur-2xl border-t border-slate-800/80 px-2 py-1.5 pb-[max(0.375rem,env(safe-area-inset-bottom))] flex items-center justify-around select-none shadow-2xl shadow-black">
+    <nav className="fixed bottom-0 inset-x-0 z-40 bg-black/95 backdrop-blur-2xl border-t border-zinc-800 px-2 py-1.5 pb-[max(0.375rem,env(safe-area-inset-bottom))] flex items-center justify-around select-none shadow-2xl shadow-black">
       {tabs.map((tab) => {
         const Icon = tab.icon;
         const isActive = activeTab === tab.id;
@@ -71,25 +71,25 @@ export function BottomNav({
             }}
             className={`relative flex-1 py-1 px-1 flex flex-col items-center justify-center gap-1 rounded-xl transition-all duration-150 ${
               isActive
-                ? 'text-cyan-400 font-semibold'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'text-white font-bold'
+                : 'text-zinc-500 hover:text-zinc-300'
             }`}
           >
             <div className="relative">
               <div
                 className={`w-9 h-7 rounded-xl flex items-center justify-center transition-all ${
                   isActive
-                    ? 'bg-cyan-500/20 text-cyan-300 shadow-sm shadow-cyan-500/20'
-                    : 'bg-transparent text-slate-400'
+                    ? 'bg-zinc-800 text-white shadow-sm border border-zinc-700'
+                    : 'bg-transparent text-zinc-500'
                 }`}
               >
-                <Icon className="w-5 h-5" />
+                <Icon className="w-4 h-4" />
               </div>
 
               {tab.badge && (
                 <span
-                  className={`absolute -top-1 -right-1.5 px-1 py-0.2 min-w-4 text-[9px] font-bold text-white rounded-full flex items-center justify-center ${
-                    tab.badgeColor || 'bg-cyan-500'
+                  className={`absolute -top-1 -right-1.5 px-1 py-0.2 min-w-4 text-[9px] font-mono font-bold rounded-full flex items-center justify-center shadow-sm ${
+                    tab.badgeColor || 'bg-white text-black'
                   }`}
                 >
                   {tab.badge}
@@ -102,7 +102,7 @@ export function BottomNav({
             </span>
 
             {isActive && (
-              <span className="absolute bottom-0 w-8 h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent rounded-full" />
+              <span className="absolute bottom-0 w-8 h-[2px] bg-white rounded-full" />
             )}
           </button>
         );

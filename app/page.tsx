@@ -14,21 +14,48 @@ import { NewProjectModal } from '@/components/NewProjectModal';
 import { playVibeTone } from '@/lib/audio';
 
 const INITIAL_MESSAGES: Record<string, ChatMessage[]> = {
-  'vibe-racer': [
+  'nextjs-starter': [
+    {
+      id: 'msg-init-0',
+      role: 'agent',
+      content: "👋 Welcome to VibedCoding! I've prepared your Next.js 15 App Router project with React 19 interactive components, client state hooks, and Tailwind CSS. Tap live preview to test or prompt me for full-stack features.",
+      timestamp: 1723750000000,
+      modelUsed: 'gemini-3.7-flash',
+      thinking: 'Initialized Next.js 15 App Router workspace with server and client components.'
+    }
+  ],
+  'static-landing': [
     {
       id: 'msg-init-1',
       role: 'agent',
-      content: "👋 Welcome to Antigravity 2.0 Mobile Vibe Coder! I've loaded your Neon Cyber Racer project. Tap the live preview to test the game, edit files directly, or ask me for new features.",
+      content: "✨ Modern SaaS Landing Page loaded in VibedCoding! Complete with dynamic pricing sliders, testimonials, and contact modal.",
       timestamp: 1723750000000,
-      modelUsed: 'gemini-3.7-flash',
-      thinking: 'Initialized mobile workspace with HTML5 canvas game loop, Web Audio synthesizer, and touch controls.'
+      modelUsed: 'gemini-3.7-flash'
+    }
+  ],
+  'saas-dashboard': [
+    {
+      id: 'msg-init-2',
+      role: 'agent',
+      content: "📊 Analytics & Telemetry Dashboard ready in VibedCoding. Live chart rendering, revenue KPIs, and telemetry event streams initialized.",
+      timestamp: 1723750000000,
+      modelUsed: 'gemini-3.7-flash'
+    }
+  ],
+  'vibe-racer': [
+    {
+      id: 'msg-init-3',
+      role: 'agent',
+      content: "🏎️ Neon Cyber Racer loaded. Tap the live preview to test the 60fps arcade engine or ask me to add nitro effects and leaderboards.",
+      timestamp: 1723750000000,
+      modelUsed: 'gemini-3.7-flash'
     }
   ],
   'vibe-ideas': [
     {
-      id: 'msg-init-2',
+      id: 'msg-init-4',
       role: 'agent',
-      content: "⚡ Idea Matrix is ready for phone vibe coding. You can dictate notes via voice, organize tags, or ask me to add features.",
+      content: "⚡ Idea Matrix is ready. You can dictate notes via voice, organize tags, or ask me to add markdown sync.",
       timestamp: 1723750000000,
       modelUsed: 'gemini-3.7-flash'
     }
@@ -47,8 +74,8 @@ export default function Home() {
   const [isNewProjectModalOpen, setIsNewProjectModalOpen] = useState(false);
   
   const [userProfile, setUserProfile] = useState<UserProfile>({
-    name: 'Mobile Vibe Coder',
-    email: 'zedboii77@gmail.com',
+    name: 'VibedCoding',
+    email: '',
     role: 'Full-Stack Creator',
     vibeStyle: 'builder',
     soundEnabled: true,
@@ -423,7 +450,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col h-screen w-screen bg-[#070a14] text-slate-100 overflow-hidden font-sans select-none">
+    <div className="flex flex-col h-screen w-screen bg-black text-zinc-100 overflow-hidden font-sans">
       {/* Top Header */}
       <Header
         currentProject={currentProject}

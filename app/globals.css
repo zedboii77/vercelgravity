@@ -20,20 +20,31 @@
   }
 }
 
-/* Custom smooth dark scrollbar */
+/* Custom high-contrast text selection */
+::selection {
+  background: rgba(255, 255, 255, 0.28);
+  color: #ffffff;
+}
+
+::-moz-selection {
+  background: rgba(255, 255, 255, 0.28);
+  color: #ffffff;
+}
+
+/* Custom smooth monochrome scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #090d18;
+  background: #09090b;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: #27272a;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #3f3f46;
 }
 
 /* Prevent double-tap zoom on iOS touch devices */

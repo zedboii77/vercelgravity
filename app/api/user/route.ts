@@ -3,8 +3,8 @@ import { UserProfile } from '@/lib/types';
 
 // Server-side user profile store
 let serverUserProfile: UserProfile = {
-  name: 'Mobile Vibe Coder',
-  email: 'zedboii77@gmail.com',
+  name: 'VibedCoding',
+  email: '',
   role: 'Full-Stack Creator',
   vibeStyle: 'builder',
   soundEnabled: true,

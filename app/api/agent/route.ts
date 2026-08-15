@@ -18,12 +18,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Prompt is required' }, { status: 400 });
     }
 
-    // Format current workspace files as context for Antigravity 2.0
+    // Format current workspace files as context for VibedCoding
     const filesContext = Object.entries(files)
       .map(([path, file]: [string, any]) => `--- File: ${path} ---\n${file.content}\n--- End File ---`)
       .join('\n\n');
 
-    const systemInstruction = `You are Antigravity 2.0, the cutting-edge agentic AI coding companion designed specifically for mobile-first vibe coding, interactive web creation, and Vercel/production deployment.
+    const systemInstruction = `You are VibedCoding, the cutting-edge agentic AI coding companion designed specifically for mobile-first vibe coding, interactive web creation, and Next.js / production deployment.
 
 Your philosophy:
 1. Mobile-First Craft: All UI and HTML/CSS/JS you write or modify must look stunning on mobile phone screens (360px - 430px width) as well as desktop, with large touch-friendly buttons (min 44px), smooth CSS transitions, high color contrast, and clean typography.

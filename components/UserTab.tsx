@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Project, ChatMessage, UserProfile, ModelType } from '@/lib/types';
 import { 
   User, 
-  Mail, 
+  Shield, 
   RefreshCw, 
   Check, 
   MessageSquare, 
@@ -105,7 +105,7 @@ export function UserTab({
     const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(exportData, null, 2));
     const downloadAnchor = document.createElement('a');
     downloadAnchor.setAttribute('href', dataStr);
-    downloadAnchor.setAttribute('download', `antigravity-all-chat-history.json`);
+    downloadAnchor.setAttribute('download', `vibedcoding-all-chat-history.json`);
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();
@@ -142,40 +142,40 @@ export function UserTab({
   });
 
   return (
-    <div className="flex-1 flex flex-col h-full bg-[#070a14] overflow-y-auto p-2.5 sm:p-4 space-y-3 pb-24 text-slate-100">
+    <div className="flex-1 flex flex-col h-full bg-black overflow-y-auto p-2.5 sm:p-4 space-y-3 pb-24 text-zinc-100">
       {/* User Header Profile Card */}
-      <div className="p-3 sm:p-4 rounded-2xl bg-gradient-to-r from-slate-900 via-[#0d1428] to-[#121c3b] border border-slate-800 shadow-xl flex flex-col gap-2.5">
+      <div className="p-3 sm:p-4 rounded-2xl bg-zinc-950 border border-zinc-800 shadow-xl flex flex-col gap-2.5">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-2.5 min-w-0">
             <div className="relative shrink-0">
-              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 p-[2px] shadow-md shadow-cyan-500/20">
-                <div className="w-full h-full rounded-[10px] bg-slate-950 flex items-center justify-center text-cyan-300 font-bold text-sm sm:text-base">
+              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-zinc-800 border border-zinc-700 p-[2px] shadow-md">
+                <div className="w-full h-full rounded-[10px] bg-zinc-900 flex items-center justify-center text-white font-bold text-sm sm:text-base">
                   {userProfile.name.charAt(0).toUpperCase()}
                 </div>
               </div>
-              <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 border-2 border-slate-950" title="Online" />
+              <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-white border-2 border-black" title="Online" />
             </div>
 
             <div className="min-w-0">
               <div className="flex items-center gap-1.5 flex-wrap">
                 <h2 className="text-xs sm:text-sm font-bold text-white truncate max-w-[130px] xs:max-w-[180px]">{userProfile.name}</h2>
-                <span className="text-[9px] font-mono px-1.5 py-0.2 rounded-md bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 shrink-0">
+                <span className="text-[9px] font-mono px-1.5 py-0.2 rounded-md bg-zinc-800 text-zinc-300 border border-zinc-700 shrink-0">
                   {userProfile.role}
                 </span>
               </div>
-              <p className="text-[11px] text-slate-400 flex items-center gap-1 font-mono truncate max-w-[180px] xs:max-w-none mt-0.5">
-                <Mail className="w-3 h-3 text-slate-500 shrink-0" />
-                <span className="truncate">{userProfile.email}</span>
+              <p className="text-[11px] text-zinc-400 flex items-center gap-1 font-mono truncate max-w-[180px] xs:max-w-none mt-0.5">
+                <Shield className="w-3 h-3 text-zinc-400 shrink-0" />
+                <span className="text-zinc-400">Private Workspace</span>
               </p>
             </div>
           </div>
         </div>
 
         {/* Server Sync Status Pill & Force Sync Bar */}
-        <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between gap-2">
-          <div className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-slate-900/90 border border-slate-800 text-[10px] sm:text-[11px]">
-            <div className={`w-1.5 h-1.5 rounded-full shrink-0 ${isSyncing ? 'bg-amber-400 animate-pulse' : 'bg-emerald-400'}`} />
-            <span className="font-mono text-slate-300 truncate">
+        <div className="pt-2 border-t border-zinc-800/80 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-zinc-900 border border-zinc-800 text-[10px] sm:text-[11px]">
+            <div className={`w-1.5 h-1.5 rounded-full shrink-0 ${isSyncing ? 'bg-zinc-400 animate-pulse' : 'bg-white'}`} />
+            <span className="font-mono text-zinc-300 truncate">
               {isSyncing ? 'Syncing...' : lastSyncedAt ? `Synced ${formatTimeAgo(lastSyncedAt)}` : 'Server Synced'}
             </span>
           </div>
@@ -186,7 +186,7 @@ export function UserTab({
               if (soundEnabled) playVibeTone('tap');
             }}
             disabled={isSyncing}
-            className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/30 text-cyan-300 font-semibold text-[11px] transition-all active:scale-95 disabled:opacity-50 shrink-0"
+            className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-200 font-semibold text-[11px] transition-all active:scale-95 disabled:opacity-50 shrink-0"
             title="Sync all chats with server now"
           >
             <RefreshCw className={`w-3 h-3 ${isSyncing ? 'animate-spin' : ''}`} />
@@ -196,11 +196,11 @@ export function UserTab({
       </div>
 
       {/* Sub-Navigation Tabs */}
-      <div className="flex gap-1.5 overflow-x-auto no-scrollbar pb-1 border-b border-slate-800">
+      <div className="flex gap-1.5 overflow-x-auto no-scrollbar pb-1 border-b border-zinc-800">
         {[
-          { id: 'history', label: `💬 Chats (${totalServerMessages})` },
-          { id: 'profile', label: '👤 Profile' },
-          { id: 'preferences', label: '⚙️ Settings' }
+          { id: 'history', label: `Chats (${totalServerMessages})` },
+          { id: 'profile', label: 'Profile' },
+          { id: 'preferences', label: 'Settings' }
         ].map((tab) => (
           <button
             key={tab.id}
@@ -210,8 +210,8 @@ export function UserTab({
             }}
             className={`px-2.5 py-1.5 rounded-xl text-[11px] sm:text-xs font-semibold whitespace-nowrap transition-all ${
               activeSubTab === tab.id
-                ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+                ? 'bg-zinc-800 text-white border border-zinc-600 shadow-sm'
+                : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900'
             }`}
           >
             {tab.label}
@@ -221,7 +221,7 @@ export function UserTab({
 
       {/* Notification Toast */}
       {copiedNotification && (
-        <div className="p-2 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-[11px] flex items-center gap-1.5 animate-in fade-in duration-200">
+        <div className="p-2 rounded-xl bg-zinc-900 border border-zinc-700 text-white text-[11px] flex items-center gap-1.5 animate-in fade-in duration-200">
           <Check className="w-3.5 h-3.5 shrink-0" />
           <span className="truncate">{copiedNotification}</span>
         </div>
@@ -233,22 +233,22 @@ export function UserTab({
           {/* Controls Bar: Search & Batch Actions */}
           <div className="flex items-center gap-2">
             <div className="relative flex-1 min-w-0">
-              <Search className="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-1/2 -translate-y-1/2" />
+              <Search className="w-3.5 h-3.5 text-zinc-500 absolute left-2.5 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search conversations..."
-                className="w-full bg-[#0c1122] border border-slate-800 rounded-xl pl-8 pr-2.5 py-1.5 text-[11px] sm:text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500/50"
+                className="w-full bg-zinc-950 border border-zinc-800 rounded-xl pl-8 pr-2.5 py-1.5 text-[11px] sm:text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-600"
               />
             </div>
 
             <button
               onClick={handleExportAllChats}
-              className="flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 font-semibold text-[11px] active:scale-95 transition-all shrink-0"
+              className="flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-300 font-semibold text-[11px] active:scale-95 transition-all shrink-0"
               title="Export all chat conversations to JSON"
             >
-              <Download className="w-3 h-3 text-cyan-400" />
+              <Download className="w-3 h-3 text-zinc-300" />
               <span className="hidden xs:inline">Export All</span>
             </button>
           </div>
@@ -256,9 +256,9 @@ export function UserTab({
           {/* Chat Sessions List Grouped by Project */}
           <div className="space-y-2.5">
             {filteredProjects.length === 0 ? (
-              <div className="p-6 rounded-2xl bg-[#0c1122] border border-slate-800 text-center space-y-1.5">
-                <MessageSquare className="w-6 h-6 text-slate-600 mx-auto" />
-                <p className="text-[11px] text-slate-400 font-medium">No saved conversations matched your search.</p>
+              <div className="p-6 rounded-2xl bg-zinc-950 border border-zinc-800 text-center space-y-1.5">
+                <MessageSquare className="w-6 h-6 text-zinc-600 mx-auto" />
+                <p className="text-[11px] text-zinc-400 font-medium">No saved conversations matched your search.</p>
               </div>
             ) : (
               filteredProjects.map((project) => {
@@ -269,10 +269,10 @@ export function UserTab({
                 return (
                   <div
                     key={project.id}
-                    className={`p-3 rounded-xl bg-[#0c1122] border transition-all ${
+                    className={`p-3 rounded-xl bg-zinc-950 border transition-all ${
                       isCurrent
-                        ? 'border-cyan-500/50 shadow-md shadow-cyan-500/5'
-                        : 'border-slate-800 hover:border-slate-700'
+                        ? 'border-zinc-600 shadow-md'
+                        : 'border-zinc-800 hover:border-zinc-700'
                     }`}
                   >
                     {/* Project Header & Badges */}
@@ -283,29 +283,29 @@ export function UserTab({
                             {project.name}
                           </h3>
                           {isCurrent && (
-                            <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-cyan-500/20 text-cyan-300 font-semibold shrink-0">
+                            <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-zinc-800 text-zinc-200 border border-zinc-700 font-semibold shrink-0">
                               Active
                             </span>
                           )}
-                          <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-slate-800 text-slate-400 shrink-0">
+                          <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-zinc-900 text-zinc-400 shrink-0 border border-zinc-800">
                             {projectMsgs.length} msgs
                           </span>
                         </div>
-                        <p className="text-[11px] text-slate-400 line-clamp-1">{project.description}</p>
+                        <p className="text-[11px] text-zinc-400 line-clamp-1">{project.description}</p>
                       </div>
 
                       {/* Action buttons */}
                       <div className="flex items-center gap-1 shrink-0">
                         <button
                           onClick={() => handleExportChat(project.id)}
-                          className="p-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-cyan-300 transition-colors"
+                          className="p-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-colors"
                           title="Export conversation history"
                         >
                           <Download className="w-3 h-3" />
                         </button>
                         <button
                           onClick={() => setConfirmClearId(project.id)}
-                          className="p-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-rose-400 transition-colors"
+                          className="p-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-colors"
                           title="Clear conversation history"
                         >
                           <Trash2 className="w-3 h-3" />
@@ -315,21 +315,21 @@ export function UserTab({
 
                     {/* Latest Message Preview */}
                     {lastMsg && (
-                      <div className="mt-2 p-2 rounded-lg bg-slate-900/80 border border-slate-800/80 text-[11px] space-y-0.5">
-                        <div className="flex items-center justify-between text-[9px] font-mono text-slate-500">
-                          <span className="capitalize text-cyan-400 font-semibold">{lastMsg.role}</span>
+                      <div className="mt-2 p-2 rounded-lg bg-zinc-900 border border-zinc-800 text-[11px] space-y-0.5">
+                        <div className="flex items-center justify-between text-[9px] font-mono text-zinc-500">
+                          <span className="capitalize text-zinc-300 font-semibold">{lastMsg.role}</span>
                           <span>{formatTimeAgo(lastMsg.timestamp)}</span>
                         </div>
-                        <p className="text-slate-300 line-clamp-2 leading-relaxed">
+                        <p className="text-zinc-300 line-clamp-2 leading-relaxed">
                           {lastMsg.content}
                         </p>
                       </div>
                     )}
 
                     {/* Open in Chat Button */}
-                    <div className="mt-2.5 pt-2 border-t border-slate-800/80 flex items-center justify-between gap-2">
-                      <span className="text-[10px] text-slate-500 font-mono flex items-center gap-1">
-                        <CheckCircle2 className="w-3 h-3 text-emerald-400 shrink-0" /> Synced
+                    <div className="mt-2.5 pt-2 border-t border-zinc-800 flex items-center justify-between gap-2">
+                      <span className="text-[10px] text-zinc-500 font-mono flex items-center gap-1">
+                        <CheckCircle2 className="w-3 h-3 text-zinc-400 shrink-0" /> Synced
                       </span>
                       <button
                         onClick={() => {
@@ -337,7 +337,7 @@ export function UserTab({
                           onOpenAgentTab();
                           if (soundEnabled) playVibeTone('tap');
                         }}
-                        className="flex items-center gap-1 px-2 py-0.5 rounded-md bg-cyan-500/10 hover:bg-cyan-500/20 text-[11px] font-semibold text-cyan-300 border border-cyan-500/20 transition-colors group shrink-0"
+                        className="flex items-center gap-1 px-2.5 py-1 rounded-md bg-zinc-900 hover:bg-zinc-800 text-[11px] font-semibold text-zinc-200 border border-zinc-700 transition-colors group shrink-0"
                       >
                         <span>Open Chat</span>
                         <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
@@ -346,14 +346,14 @@ export function UserTab({
 
                     {/* Clear Confirmation Modal Inline */}
                     {confirmClearId === project.id && (
-                      <div className="mt-2.5 p-2.5 rounded-xl bg-rose-950/40 border border-rose-800/60 space-y-2 animate-in fade-in duration-150">
-                        <p className="text-[11px] text-rose-200 font-medium">
+                      <div className="mt-2.5 p-2.5 rounded-xl bg-zinc-900 border border-zinc-700 space-y-2 animate-in fade-in duration-150">
+                        <p className="text-[11px] text-zinc-200 font-medium">
                           Clear {projectMsgs.length} messages for {project.name}?
                         </p>
                         <div className="flex items-center gap-1.5 justify-end">
                           <button
                             onClick={() => setConfirmClearId(null)}
-                            className="px-2 py-1 rounded-lg bg-slate-800 text-slate-300 text-[10px] font-medium"
+                            className="px-2 py-1 rounded-lg bg-zinc-800 text-zinc-300 text-[10px] font-medium"
                           >
                             Cancel
                           </button>
@@ -363,7 +363,7 @@ export function UserTab({
                               setConfirmClearId(null);
                               if (soundEnabled) playVibeTone('tap');
                             }}
-                            className="px-2 py-1 rounded-lg bg-rose-600 hover:bg-rose-500 text-white text-[10px] font-bold"
+                            className="px-2 py-1 rounded-lg bg-white hover:bg-zinc-200 text-black text-[10px] font-bold"
                           >
                             Confirm Clear
                           </button>
@@ -381,15 +381,15 @@ export function UserTab({
       {/* TAB 2: USER PROFILE & IDENTITY */}
       {activeSubTab === 'profile' && (
         <div className="space-y-3 animate-in fade-in duration-150">
-          <div className="p-3 sm:p-4 rounded-xl bg-[#0c1122] border border-slate-800 space-y-3">
+          <div className="p-3 sm:p-4 rounded-xl bg-zinc-950 border border-zinc-800 space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-mono font-bold text-slate-200 flex items-center gap-1.5">
-                <User className="w-3.5 h-3.5 text-cyan-400" />
+              <span className="text-[11px] font-mono font-bold text-zinc-200 flex items-center gap-1.5">
+                <User className="w-3.5 h-3.5 text-zinc-400" />
                 USER PROFILE
               </span>
               <button
                 onClick={() => setIsEditingProfile(!isEditingProfile)}
-                className="text-[11px] font-semibold text-cyan-400 hover:text-cyan-300"
+                className="text-[11px] font-semibold text-zinc-300 hover:text-white"
               >
                 {isEditingProfile ? 'Cancel' : 'Edit Profile'}
               </button>
@@ -398,49 +398,49 @@ export function UserTab({
             {isEditingProfile ? (
               <div className="space-y-2.5 pt-1">
                 <div>
-                  <label className="text-[10px] font-mono text-slate-400 block mb-0.5">Display Name</label>
+                  <label className="text-[10px] font-mono text-zinc-400 block mb-0.5">Display Name</label>
                   <input
                     type="text"
                     value={nameInput}
                     onChange={(e) => setNameInput(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-cyan-400"
+                    className="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-zinc-500"
                   />
                 </div>
                 <div>
-                  <label className="text-[10px] font-mono text-slate-400 block mb-0.5">Developer Role</label>
+                  <label className="text-[10px] font-mono text-zinc-400 block mb-0.5">Developer Role</label>
                   <input
                     type="text"
                     value={roleInput}
                     onChange={(e) => setRoleInput(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-cyan-400"
+                    className="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-zinc-500"
                   />
                 </div>
                 <button
                   onClick={handleSaveProfile}
-                  className="px-3 py-1.5 rounded-xl bg-cyan-500 text-slate-950 font-bold text-xs active:scale-95 transition-all"
+                  className="px-3 py-1.5 rounded-xl bg-white text-black font-bold text-xs hover:bg-zinc-200 active:scale-95 transition-all"
                 >
                   Save Profile
                 </button>
               </div>
             ) : (
               <div className="grid grid-cols-2 gap-2 pt-1">
-                <div className="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 space-y-0.5">
-                  <span className="text-[9px] font-mono text-slate-500 uppercase block tracking-wider">Account Email</span>
-                  <span className="text-[11px] font-bold text-white font-mono truncate block" title={userProfile.email}>
-                    {userProfile.email}
+                <div className="p-2.5 rounded-xl bg-zinc-900 border border-zinc-800 space-y-0.5">
+                  <span className="text-[9px] font-mono text-zinc-500 uppercase block tracking-wider">Privacy Status</span>
+                  <span className="text-[11px] font-bold text-white font-mono truncate block">
+                    Protected & Private
                   </span>
                 </div>
-                <div className="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 space-y-0.5">
-                  <span className="text-[9px] font-mono text-slate-500 uppercase block tracking-wider">Developer Role</span>
-                  <span className="text-[11px] font-bold text-cyan-300 truncate block">{userProfile.role}</span>
+                <div className="p-2.5 rounded-xl bg-zinc-900 border border-zinc-800 space-y-0.5">
+                  <span className="text-[9px] font-mono text-zinc-500 uppercase block tracking-wider">Developer Role</span>
+                  <span className="text-[11px] font-bold text-zinc-200 truncate block">{userProfile.role}</span>
                 </div>
-                <div className="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 space-y-0.5">
-                  <span className="text-[9px] font-mono text-slate-500 uppercase block tracking-wider">Total Prompts</span>
-                  <span className="text-[11px] font-bold text-emerald-400 font-mono block">{userProfile.totalPromptsSent} Prompts</span>
+                <div className="p-2.5 rounded-xl bg-zinc-900 border border-zinc-800 space-y-0.5">
+                  <span className="text-[9px] font-mono text-zinc-500 uppercase block tracking-wider">Total Prompts</span>
+                  <span className="text-[11px] font-bold text-white font-mono block">{userProfile.totalPromptsSent} Prompts</span>
                 </div>
-                <div className="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 space-y-0.5">
-                  <span className="text-[9px] font-mono text-slate-500 uppercase block tracking-wider">Total Files</span>
-                  <span className="text-[11px] font-bold text-purple-400 font-mono block">{userProfile.totalFilesGenerated} Files</span>
+                <div className="p-2.5 rounded-xl bg-zinc-900 border border-zinc-800 space-y-0.5">
+                  <span className="text-[9px] font-mono text-zinc-500 uppercase block tracking-wider">Total Files</span>
+                  <span className="text-[11px] font-bold text-white font-mono block">{userProfile.totalFilesGenerated} Files</span>
                 </div>
               </div>
             )}
@@ -451,15 +451,15 @@ export function UserTab({
       {/* TAB 3: VIBE PREFERENCES & SYSTEM SETTINGS */}
       {activeSubTab === 'preferences' && (
         <div className="space-y-3 animate-in fade-in duration-150">
-          <div className="p-3 sm:p-4 rounded-xl bg-[#0c1122] border border-slate-800 space-y-3">
-            <span className="text-[11px] font-mono font-bold text-slate-200 flex items-center gap-1.5">
-              <Sliders className="w-3.5 h-3.5 text-cyan-400" />
+          <div className="p-3 sm:p-4 rounded-xl bg-zinc-950 border border-zinc-800 space-y-3">
+            <span className="text-[11px] font-mono font-bold text-zinc-200 flex items-center gap-1.5">
+              <Sliders className="w-3.5 h-3.5 text-zinc-400" />
               DEFAULT AGENT BRAIN & AUDIO
             </span>
 
             {/* Model Selection */}
             <div className="space-y-1.5">
-              <label className="text-[11px] text-slate-300 font-medium block">Default AI Model</label>
+              <label className="text-[11px] text-zinc-300 font-medium block">Default AI Model</label>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                 {[
                   { id: 'gemini-3.7-flash', name: 'Gemini 3.7 Flash', desc: 'Reasoning & speed' },
@@ -474,29 +474,29 @@ export function UserTab({
                     }}
                     className={`p-2.5 rounded-xl text-left border transition-all ${
                       selectedModel === m.id
-                        ? 'bg-cyan-500/15 border-cyan-500/50 text-cyan-200'
-                        : 'bg-slate-900/80 border-slate-800 text-slate-400 hover:text-slate-200'
+                        ? 'bg-zinc-800 border-zinc-600 text-white font-semibold'
+                        : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-zinc-200'
                     }`}
                   >
                     <div className="text-[11px] font-bold">{m.name}</div>
-                    <div className="text-[10px] text-slate-500 mt-0.5 leading-tight">{m.desc}</div>
+                    <div className="text-[10px] text-zinc-500 mt-0.5 leading-tight">{m.desc}</div>
                   </button>
                 ))}
               </div>
             </div>
 
             {/* Sound FX Setting */}
-            <div className="pt-2 border-t border-slate-800 flex items-center justify-between gap-2">
+            <div className="pt-2 border-t border-zinc-800 flex items-center justify-between gap-2">
               <div>
                 <span className="text-xs font-bold text-white block">8-Bit Audio Synth</span>
-                <span className="text-[10px] text-slate-400 block leading-tight">Responsive audio feedback on clicks and code operations</span>
+                <span className="text-[10px] text-zinc-400 block leading-tight">Responsive audio feedback on clicks and code operations</span>
               </div>
               <button
                 onClick={onToggleSound}
                 className={`p-2 rounded-xl border transition-all shrink-0 ${
                   soundEnabled
-                    ? 'bg-cyan-500/20 border-cyan-500/40 text-cyan-300'
-                    : 'bg-slate-900 border-slate-800 text-slate-500'
+                    ? 'bg-zinc-800 border-zinc-600 text-white'
+                    : 'bg-zinc-900 border-zinc-800 text-zinc-500'
                 }`}
               >
                 {soundEnabled ? <Volume2 className="w-3.5 h-3.5" /> : <VolumeX className="w-3.5 h-3.5" />}

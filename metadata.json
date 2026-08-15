@@ -1,6 +1,6 @@
 {
   "name": "Antigravity 2.0 Mobile Vibe Coder",
-  "description": "A mobile-first agentic coding environment and live preview IDE with server-synced chat history and user profile management.",
+  "description": "VibedCoding mobile-first agentic coding environment with Next.js, static web, SaaS dashboard templates, and live preview IDE.",
   "requestFramePermissions": ["microphone"],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

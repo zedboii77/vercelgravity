@@ -140,14 +140,14 @@ export function VibeInput({ onSendMessage, isLoading, soundEnabled }: VibeInputP
   };
 
   const styleLabels: Record<VibeStyle, { label: string; desc: string; icon: any; color: string }> = {
-    builder: { label: 'Full Builder', desc: 'Creates complete features and modules', icon: Wand2, color: 'text-cyan-400' },
-    creative: { label: 'Ultra Vibe', desc: 'Bold creative UI redesigns & effects', icon: Sparkles, color: 'text-fuchsia-400' },
-    surgical: { label: 'Surgical Fix', desc: 'Pinpoint bugfixes and optimizations', icon: Zap, color: 'text-emerald-400' },
-    minimal: { label: 'Minimal Clean', desc: 'Refined spacing, typography and tokens', icon: Check, color: 'text-blue-400' },
+    builder: { label: 'Full Builder', desc: 'Creates complete features and modules', icon: Wand2, color: 'text-zinc-200' },
+    creative: { label: 'Ultra Vibe', desc: 'Bold creative UI redesigns & effects', icon: Sparkles, color: 'text-zinc-300' },
+    surgical: { label: 'Surgical Fix', desc: 'Pinpoint bugfixes and optimizations', icon: Zap, color: 'text-zinc-200' },
+    minimal: { label: 'Minimal Clean', desc: 'Refined spacing, typography and tokens', icon: Check, color: 'text-zinc-100' },
   };
 
   return (
-    <div className="bg-[#0c101c]/95 border-t border-slate-800/90 p-2.5 pb-20 space-y-2 backdrop-blur-2xl">
+    <div className="bg-black/95 border-t border-zinc-800 p-2.5 pb-20 space-y-2 backdrop-blur-2xl">
       {/* Vibe Prompt Quick Chips Carousel */}
       <div className="flex gap-1.5 overflow-x-auto no-scrollbar py-0.5 select-none">
         {VIBE_PRESETS.map((preset) => (
@@ -160,7 +160,7 @@ export function VibeInput({ onSendMessage, isLoading, soundEnabled }: VibeInputP
                 textareaRef.current.focus();
               }
             }}
-            className="shrink-0 text-[11px] font-medium px-2.5 py-1 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-800/90 text-slate-300 hover:text-cyan-300 transition-all flex items-center gap-1 active:scale-95 shadow-sm"
+            className="shrink-0 text-[11px] font-medium px-2.5 py-1 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-300 hover:text-white transition-all flex items-center gap-1 active:scale-95 shadow-sm"
           >
             <span>{preset.label}</span>
           </button>
@@ -171,11 +171,11 @@ export function VibeInput({ onSendMessage, isLoading, soundEnabled }: VibeInputP
       {attachedImages.length > 0 && (
         <div className="flex gap-2 p-1 overflow-x-auto">
           {attachedImages.map((img, idx) => (
-            <div key={idx} className="relative w-14 h-14 rounded-xl border border-slate-700 overflow-hidden shrink-0 group">
+            <div key={idx} className="relative w-14 h-14 rounded-xl border border-zinc-700 overflow-hidden shrink-0 group">
               <img src={img} alt="Attachment" className="w-full h-full object-cover" />
               <button
                 onClick={() => setAttachedImages(attachedImages.filter((_, i) => i !== idx))}
-                className="absolute top-0.5 right-0.5 w-5 h-5 bg-black/80 text-white rounded-full flex items-center justify-center text-xs"
+                className="absolute top-0.5 right-0.5 w-5 h-5 bg-black/90 text-white rounded-full flex items-center justify-center text-xs"
               >
                 <X className="w-3 h-3" />
               </button>
@@ -185,7 +185,7 @@ export function VibeInput({ onSendMessage, isLoading, soundEnabled }: VibeInputP
       )}
 
       {/* Input Container */}
-      <div className="flex items-end gap-1.5 bg-[#121829] border border-slate-700/80 rounded-2xl p-1.5 shadow-inner focus-within:border-cyan-500/80 transition-all">
+      <div className="flex items-end gap-1.5 bg-zinc-900/90 border border-zinc-700 rounded-2xl p-1.5 shadow-inner focus-within:border-zinc-500 transition-all">
         {/* Style Selector & Attach */}
         <div className="flex items-center gap-0.5 pb-1">
           <input
@@ -199,7 +199,7 @@ export function VibeInput({ onSendMessage, isLoading, soundEnabled }: VibeInputP
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="w-8 h-8 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800 flex items-center justify-center transition-colors"
+            className="w-8 h-8 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-800 flex items-center justify-center transition-colors"
             title="Attach Wireframe or Screenshot"
           >
             <ImageIcon className="w-4 h-4" />
@@ -211,8 +211,8 @@ export function VibeInput({ onSendMessage, isLoading, soundEnabled }: VibeInputP
             onClick={toggleVoice}
             className={`w-8 h-8 rounded-xl flex items-center justify-center transition-all ${
               isRecording
-                ? 'bg-rose-500 text-white animate-pulse shadow-md shadow-rose-500/50'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                ? 'bg-white text-black animate-pulse shadow-md'
+                : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
             }`}
             title={isRecording ? 'Listening...' : 'Voice Dictate Vibe'}
           >
@@ -227,10 +227,10 @@ export function VibeInput({ onSendMessage, isLoading, soundEnabled }: VibeInputP
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder={isRecording ? 'Listening to your voice prompt...' : 'Vibe prompt Antigravity 2.0...'}
+            placeholder={isRecording ? 'Listening to your voice prompt...' : 'Prompt Antigravity 2.0...'}
             rows={1}
             disabled={isLoading}
-            className="w-full bg-transparent text-slate-100 placeholder-slate-500 text-xs sm:text-sm px-2 py-1.5 focus:outline-none resize-none max-h-32 leading-relaxed"
+            className="w-full bg-transparent text-zinc-100 placeholder-zinc-500 text-xs sm:text-sm px-2 py-1.5 focus:outline-none resize-none max-h-32 leading-relaxed"
           />
         </div>
 
@@ -241,12 +241,12 @@ export function VibeInput({ onSendMessage, isLoading, soundEnabled }: VibeInputP
           disabled={(!inputText.trim() && attachedImages.length === 0) || isLoading}
           className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-all duration-150 ${
             (inputText.trim() || attachedImages.length > 0) && !isLoading
-              ? 'bg-gradient-to-tr from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/30 active:scale-95'
-              : 'bg-slate-800 text-slate-500 cursor-not-allowed'
+              ? 'bg-white text-black hover:bg-zinc-200 active:scale-95 shadow-md font-bold'
+              : 'bg-zinc-800 text-zinc-600 cursor-not-allowed'
           }`}
         >
           {isLoading ? (
-            <div className="w-4 h-4 border-2 border-slate-400 border-t-transparent rounded-full animate-spin" />
+            <div className="w-4 h-4 border-2 border-zinc-600 border-t-white rounded-full animate-spin" />
           ) : (
             <Send className="w-4 h-4" />
           )}

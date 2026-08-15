@@ -140,17 +140,17 @@ export function LivePreview({ project, soundEnabled }: LivePreviewProps) {
   const dimensions = getDeviceDimensions();
 
   return (
-    <div className="flex-1 flex flex-col h-full bg-[#050811] overflow-hidden">
+    <div className="flex-1 flex flex-col h-full bg-black overflow-hidden">
       {/* Top Preview Controls */}
-      <div className="bg-[#0b101e] border-b border-slate-800 px-3 py-2 flex items-center justify-between gap-2 shrink-0 select-none">
+      <div className="bg-zinc-950 border-b border-zinc-800 px-3 py-2 flex items-center justify-between gap-2 shrink-0 select-none">
         {/* Device Switcher */}
-        <div className="flex items-center gap-1 bg-slate-900/90 p-1 rounded-xl border border-slate-800">
+        <div className="flex items-center gap-1 bg-zinc-900 p-1 rounded-xl border border-zinc-800">
           <button
             onClick={() => { setDeviceMode('mobile-iphone'); if (soundEnabled) playVibeTone('tap'); }}
             className={`p-1.5 rounded-lg transition-all ${
               deviceMode === 'mobile-iphone'
-                ? 'bg-cyan-500/20 text-cyan-300 font-semibold'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-zinc-800 text-white font-semibold'
+                : 'text-zinc-500 hover:text-zinc-300'
             }`}
             title="iPhone 16 Pro (393px)"
           >
@@ -161,8 +161,8 @@ export function LivePreview({ project, soundEnabled }: LivePreviewProps) {
             onClick={() => { setDeviceMode('tablet'); if (soundEnabled) playVibeTone('tap'); }}
             className={`p-1.5 rounded-lg transition-all ${
               deviceMode === 'tablet'
-                ? 'bg-cyan-500/20 text-cyan-300 font-semibold'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-zinc-800 text-white font-semibold'
+                : 'text-zinc-500 hover:text-zinc-300'
             }`}
             title="Tablet (768px)"
           >
@@ -173,8 +173,8 @@ export function LivePreview({ project, soundEnabled }: LivePreviewProps) {
             onClick={() => { setDeviceMode('full'); if (soundEnabled) playVibeTone('tap'); }}
             className={`p-1.5 rounded-lg transition-all ${
               deviceMode === 'full'
-                ? 'bg-cyan-500/20 text-cyan-300 font-semibold'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-zinc-800 text-white font-semibold'
+                : 'text-zinc-500 hover:text-zinc-300'
             }`}
             title="Full Screen Viewport"
           >
@@ -188,8 +188,8 @@ export function LivePreview({ project, soundEnabled }: LivePreviewProps) {
             onClick={() => setShowConsole(!showConsole)}
             className={`flex items-center gap-1 px-2 py-1.5 rounded-xl border text-xs font-mono transition-all ${
               showConsole
-                ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40'
-                : 'bg-slate-800 text-slate-400 border-slate-700 hover:text-slate-200'
+                ? 'bg-zinc-800 text-white border-zinc-600'
+                : 'bg-zinc-900 text-zinc-400 border-zinc-800 hover:text-white'
             }`}
           >
             <Bug className="w-3 h-3" />
@@ -198,10 +198,10 @@ export function LivePreview({ project, soundEnabled }: LivePreviewProps) {
 
           <button
             onClick={handleRefresh}
-            className="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 active:scale-90 transition-all"
+            className="p-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 active:scale-90 transition-all"
             title="Reload Sandbox"
           >
-            <RotateCw className="w-3.5 h-3.5 text-cyan-400" />
+            <RotateCw className="w-3.5 h-3.5 text-white" />
           </button>
         </div>
       </div>
@@ -210,14 +210,14 @@ export function LivePreview({ project, soundEnabled }: LivePreviewProps) {
       <div className="flex-1 relative flex items-center justify-center p-2 sm:p-4 overflow-hidden pb-20">
         <div
           style={typeof dimensions === 'object' ? dimensions : undefined}
-          className={`w-full h-full rounded-2xl sm:rounded-3xl border-2 border-slate-800/80 bg-black shadow-2xl overflow-hidden relative flex flex-col transition-all duration-200 ${
+          className={`w-full h-full rounded-2xl sm:rounded-3xl border-2 border-zinc-800 bg-black shadow-2xl overflow-hidden relative flex flex-col transition-all duration-200 ${
             typeof dimensions === 'string' ? dimensions : ''
           }`}
         >
           {/* Mobile Bezel Header if simulated device */}
           {deviceMode !== 'full' && (
-            <div className="h-4 bg-[#0a0e1c] flex items-center justify-center shrink-0">
-              <div className="w-16 h-2 bg-slate-800 rounded-full" />
+            <div className="h-4 bg-zinc-950 flex items-center justify-center shrink-0 border-b border-zinc-900">
+              <div className="w-16 h-2 bg-zinc-800 rounded-full" />
             </div>
           )}
 
@@ -227,43 +227,43 @@ export function LivePreview({ project, soundEnabled }: LivePreviewProps) {
             srcDoc={generatePreviewSrcDoc()}
             title="Antigravity 2.0 Live Preview Sandbox"
             sandbox="allow-scripts allow-modals allow-forms allow-same-origin"
-            className="w-full flex-1 border-none bg-[#070913]"
+            className="w-full flex-1 border-none bg-black"
           />
         </div>
       </div>
 
       {/* Live Console Drawer */}
       {showConsole && (
-        <div className="bg-[#0b0f1e] border-t border-slate-800 max-h-44 flex flex-col shrink-0 shadow-2xl z-30 pb-20">
-          <div className="px-3 py-1.5 bg-slate-900 flex items-center justify-between border-b border-slate-800 text-[11px] font-mono font-semibold text-slate-400">
+        <div className="bg-zinc-950 border-t border-zinc-800 max-h-44 flex flex-col shrink-0 shadow-2xl z-30 pb-20">
+          <div className="px-3 py-1.5 bg-zinc-900 flex items-center justify-between border-b border-zinc-800 text-[11px] font-mono font-semibold text-zinc-400">
             <div className="flex items-center gap-1.5">
-              <Terminal className="w-3 h-3 text-cyan-400" />
+              <Terminal className="w-3 h-3 text-white" />
               <span>LIVE BROWSER CONSOLE</span>
             </div>
             <button
               onClick={() => setConsoleLogs([])}
-              className="text-[10px] text-slate-400 hover:text-slate-200"
+              className="text-[10px] text-zinc-400 hover:text-white"
             >
               Clear Logs
             </button>
           </div>
 
-          <div className="p-2 overflow-y-auto font-mono text-[11px] space-y-1 bg-black/60 flex-1">
+          <div className="p-2 overflow-y-auto font-mono text-[11px] space-y-1 bg-black flex-1">
             {consoleLogs.length === 0 ? (
-              <div className="text-slate-600 text-center py-3">No console messages logged yet.</div>
+              <div className="text-zinc-600 text-center py-3">No console messages logged yet.</div>
             ) : (
               consoleLogs.map((log) => (
                 <div
                   key={log.id}
                   className={`px-1.5 py-0.5 rounded flex items-start gap-1.5 ${
                     log.type === 'error'
-                      ? 'text-rose-400 bg-rose-500/10'
+                      ? 'text-white bg-zinc-900 border border-zinc-700'
                       : log.type === 'warn'
-                      ? 'text-amber-400 bg-amber-500/10'
-                      : 'text-slate-300'
+                      ? 'text-zinc-200 bg-zinc-900'
+                      : 'text-zinc-400'
                   }`}
                 >
-                  <span className="text-slate-600 text-[9px] shrink-0">{log.timestamp}</span>
+                  <span className="text-zinc-600 text-[9px] shrink-0">{log.timestamp}</span>
                   <span className="break-all">{log.message}</span>
                 </div>
               ))
