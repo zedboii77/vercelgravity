@@ -353,7 +353,7 @@ export const STARTER_PROJECTS: Project[] = [
         path: 'server.js',
         language: 'javascript',
         updatedAt: 1723750000000,
-        content: `// Antigravity 2.0 VPS Production Server
+        content: `// Production Node.js Web Server
 const express = require('express');
 const path = require('path');
 const app = express();
@@ -362,7 +362,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.static(path.join(__dirname)));
 
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', uptime: process.uptime(), vibe: 'maximum' });
+  res.json({ status: 'ok', uptime: process.uptime() });
 });
 
 app.listen(PORT, () => {
@@ -456,7 +456,7 @@ app.listen(PORT, () => {
     let notes = JSON.parse(localStorage.getItem('vibe_notes') || '[]');
     if (notes.length === 0) {
       notes = [
-        { id: 1, text: "Build a micro-SaaS for mobile vibe coders with one-click VPS deployment.", tag: "startup", time: "Just now", color: "from-cyan-500/10 to-blue-500/10 border-cyan-500/30" },
+        { id: 1, text: "Build a micro-SaaS for mobile vibe coders with instant Vercel deployment.", tag: "startup", time: "Just now", color: "from-cyan-500/10 to-blue-500/10 border-cyan-500/30" },
         { id: 2, text: "Use Web Audio API to create retro 8-bit sound effects on button clicks.", tag: "code", time: "10m ago", color: "from-purple-500/10 to-pink-500/10 border-purple-500/30" },
         { id: 3, text: "What if code editors had a dedicated thumb dial for selecting variables?", tag: "shower-thought", time: "1h ago", color: "from-amber-500/10 to-orange-500/10 border-amber-500/30" }
       ];
@@ -613,10 +613,10 @@ export const VIBE_PRESETS = [
     category: 'fix'
   },
   {
-    id: 'vps-deploy',
-    label: '🚀 Generate VPS Deploy Config',
-    icon: 'Server',
-    prompt: 'Write an optimized Dockerfile, docker-compose.yml, and PM2 ecosystem config so I can deploy this project onto my Ubuntu VPS with a single curl command.',
-    category: 'devops'
+    id: 'clean-architecture',
+    label: '⚡ Clean Architecture & Sync',
+    icon: 'Layers',
+    prompt: 'Refactor this project with clean modular architecture, reactive state synchronization, defensive error boundaries, and optimal mobile performance.',
+    category: 'feature'
   }
 ];

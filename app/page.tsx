@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { Project, ChatMessage, ModelType, ToolCallData, VibeStyle } from '@/lib/types';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Project, ChatMessage, ModelType, ToolCallData, VibeStyle, UserProfile } from '@/lib/types';
 import { STARTER_PROJECTS } from '@/lib/templates';
 import { Header } from '@/components/Header';
 import { BottomNav, TabType } from '@/components/BottomNav';
@@ -9,10 +9,31 @@ import { VibeInput } from '@/components/VibeInput';
 import { AgentFeed } from '@/components/AgentFeed';
 import { MobileCodeEditor } from '@/components/MobileCodeEditor';
 import { LivePreview } from '@/components/LivePreview';
-import { TerminalRunner } from '@/components/TerminalRunner';
-import { VPSHub } from '@/components/VPSHub';
+import { UserTab } from '@/components/UserTab';
 import { NewProjectModal } from '@/components/NewProjectModal';
 import { playVibeTone } from '@/lib/audio';
+
+const INITIAL_MESSAGES: Record<string, ChatMessage[]> = {
+  'vibe-racer': [
+    {
+      id: 'msg-init-1',
+      role: 'agent',
+      content: "👋 Welcome to Antigravity 2.0 Mobile Vibe Coder! I've loaded your Neon Cyber Racer project. Tap the live preview to test the game, edit files directly, or ask me for new features.",
+      timestamp: 1723750000000,
+      modelUsed: 'gemini-3.7-flash',
+      thinking: 'Initialized mobile workspace with HTML5 canvas game loop, Web Audio synthesizer, and touch controls.'
+    }
+  ],
+  'vibe-ideas': [
+    {
+      id: 'msg-init-2',
+      role: 'agent',
+      content: "⚡ Idea Matrix is ready for phone vibe coding. You can dictate notes via voice, organize tags, or ask me to add features.",
+      timestamp: 1723750000000,
+      modelUsed: 'gemini-3.7-flash'
+    }
+  ]
+};
 
 export default function Home() {
   const [projects, setProjects] = useState<Project[]>(STARTER_PROJECTS);
@@ -21,50 +42,160 @@ export default function Home() {
   const [selectedModel, setSelectedModel] = useState<ModelType>('gemini-3.7-flash');
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [lastSyncedAt, setLastSyncedAt] = useState<number | null>(null);
   const [isNewProjectModalOpen, setIsNewProjectModalOpen] = useState(false);
-  const [isVPSModalOpen, setIsVPSModalOpen] = useState(false);
-  const [messages, setMessages] = useState<Record<string, ChatMessage[]>>({
-    'vibe-racer': [
-      {
-        id: 'msg-init-1',
-        role: 'agent',
-        content: "👋 Welcome to Antigravity 2.0 Mobile Vibe Coder! I've loaded your Neon Cyber Racer project. Tap the live preview to test the synthwave drift, or tell me what features to code next!",
-        timestamp: 1723750000000,
-        modelUsed: 'gemini-3.7-flash',
-        thinking: 'Initialized mobile workspace with HTML5 canvas game loop, Web Audio synthesizer, and touch controls.'
-      }
-    ],
-    'vibe-ideas': [
-      {
-        id: 'msg-init-2',
-        role: 'agent',
-        content: "⚡ Idea Matrix is ready for phone vibe coding. You can dictate notes via voice, tag vibes, or ask me to add markdown sync and cloud export.",
-        timestamp: 1723750000000,
-        modelUsed: 'gemini-3.7-flash'
-      }
-    ]
+  
+  const [userProfile, setUserProfile] = useState<UserProfile>({
+    name: 'Mobile Vibe Coder',
+    email: 'zedboii77@gmail.com',
+    role: 'Full-Stack Creator',
+    vibeStyle: 'builder',
+    soundEnabled: true,
+    totalPromptsSent: 14,
+    totalFilesGenerated: 28,
+    joinedAt: 1723750000000,
+    lastActiveAt: Date.now()
   });
+
+  const [messages, setMessages] = useState<Record<string, ChatMessage[]>>(INITIAL_MESSAGES);
 
   const currentProject = projects.find((p) => p.id === currentProjectId) || projects[0];
 
-  // Save projects to localStorage
-  useEffect(() => {
+  // Helper to sync chat state to the server
+  const syncChatsToServer = useCallback(async (allChatsPayload: Record<string, ChatMessage[]>) => {
     try {
-      const saved = localStorage.getItem('antigravity_projects');
-      if (saved) {
-        const parsed = JSON.parse(saved);
+      setIsSyncing(true);
+      const res = await fetch('/api/chats', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ allChats: allChatsPayload })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setLastSyncedAt(data.lastSyncedAt || Date.now());
+      }
+    } catch (err) {
+      console.warn('Background server chat sync error:', err);
+    } finally {
+      setIsSyncing(false);
+    }
+  }, []);
+
+  // Initial Load: Fetch Projects, Synced Chats, and User Profile from Server & Local Storage
+  useEffect(() => {
+    // 1. Load Local Projects
+    try {
+      const savedProjects = localStorage.getItem('antigravity_projects');
+      if (savedProjects) {
+        const parsed = JSON.parse(savedProjects);
         if (Array.isArray(parsed) && parsed.length > 0) {
           setProjects(parsed);
         }
       }
     } catch (e) {}
-  }, []);
 
+    // 2. Fetch server-synced chats
+    const loadServerData = async () => {
+      try {
+        setIsSyncing(true);
+        // Load chats
+        const chatRes = await fetch('/api/chats');
+        if (chatRes.ok) {
+          const chatData = await chatRes.json();
+          if (chatData.chats && Object.keys(chatData.chats).length > 0) {
+            setMessages(chatData.chats);
+            setLastSyncedAt(chatData.lastSyncedAt || Date.now());
+          } else {
+            // Check local fallback
+            const localChats = localStorage.getItem('antigravity_chats');
+            if (localChats) {
+              const parsed = JSON.parse(localChats);
+              setMessages(parsed);
+              syncChatsToServer(parsed);
+            }
+          }
+        }
+
+        // Load user profile
+        const userRes = await fetch('/api/user');
+        if (userRes.ok) {
+          const userData = await userRes.json();
+          if (userData.user) {
+            setUserProfile((prev) => ({ ...prev, ...userData.user }));
+            setSoundEnabled(userData.user.soundEnabled ?? true);
+          }
+        }
+      } catch (err) {
+        console.warn('Initial server sync warning:', err);
+      } finally {
+        setIsSyncing(false);
+      }
+    };
+
+    loadServerData();
+  }, [syncChatsToServer]);
+
+  // Persist projects state
   const saveProjectsState = (updatedProjects: Project[]) => {
     setProjects(updatedProjects);
     try {
       localStorage.setItem('antigravity_projects', JSON.stringify(updatedProjects));
     } catch (e) {}
+  };
+
+  // Persist and sync chat messages
+  const updateAndSyncMessages = (updatedMessages: Record<string, ChatMessage[]>) => {
+    setMessages(updatedMessages);
+    try {
+      localStorage.setItem('antigravity_chats', JSON.stringify(updatedMessages));
+    } catch (e) {}
+    syncChatsToServer(updatedMessages);
+  };
+
+  // Update user profile
+  const handleUpdateUserProfile = async (partial: Partial<UserProfile>) => {
+    const updated = { ...userProfile, ...partial };
+    setUserProfile(updated);
+    try {
+      await fetch('/api/user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(partial)
+      });
+    } catch (e) {}
+  };
+
+  // Force manual sync
+  const handleForceSyncChats = async () => {
+    await syncChatsToServer(messages);
+  };
+
+  // Clear chat history on server and locally
+  const handleClearChatHistory = async (projectId?: string) => {
+    try {
+      setIsSyncing(true);
+      const url = projectId ? `/api/chats?projectId=${encodeURIComponent(projectId)}` : '/api/chats';
+      await fetch(url, { method: 'DELETE' });
+
+      if (projectId) {
+        const updated = { ...messages, [projectId]: [] };
+        setMessages(updated);
+        try {
+          localStorage.setItem('antigravity_chats', JSON.stringify(updated));
+        } catch (e) {}
+      } else {
+        setMessages({});
+        try {
+          localStorage.removeItem('antigravity_chats');
+        } catch (e) {}
+      }
+      setLastSyncedAt(Date.now());
+    } catch (err) {
+      console.error('Failed to clear chat history', err);
+    } finally {
+      setIsSyncing(false);
+    }
   };
 
   // Handle agent prompt send
@@ -86,12 +217,17 @@ export default function Home() {
     };
 
     const currentProjectMessages = messages[currentProjectId] || [];
-    setMessages((prev) => ({
-      ...prev,
+    const updatedChatsWithUser = {
+      ...messages,
       [currentProjectId]: [...currentProjectMessages, userMessage]
-    }));
+    };
 
+    setMessages(updatedChatsWithUser);
     setIsLoading(true);
+
+    // Increment prompt count
+    const updatedPromptCount = userProfile.totalPromptsSent + 1;
+    handleUpdateUserProfile({ totalPromptsSent: updatedPromptCount });
 
     try {
       const response = await fetch('/api/agent', {
@@ -123,10 +259,12 @@ export default function Home() {
         modelUsed: data.modelUsed || selectedModel
       };
 
-      setMessages((prev) => ({
-        ...prev,
-        [currentProjectId]: [...(prev[currentProjectId] || []), agentMessage]
-      }));
+      const finalUpdatedChats = {
+        ...updatedChatsWithUser,
+        [currentProjectId]: [...(updatedChatsWithUser[currentProjectId] || []), agentMessage]
+      };
+
+      updateAndSyncMessages(finalUpdatedChats);
 
       // Automatically apply tool calls to project files
       if (data.toolCalls && data.toolCalls.length > 0) {
@@ -142,10 +280,11 @@ export default function Home() {
         content: `⚠️ Error: ${err.message || 'Could not connect to Antigravity 2.0 runtime. Please verify API key.'}`,
         timestamp: Date.now()
       };
-      setMessages((prev) => ({
-        ...prev,
-        [currentProjectId]: [...(prev[currentProjectId] || []), errorMessage]
-      }));
+      const finalUpdatedChats = {
+        ...updatedChatsWithUser,
+        [currentProjectId]: [...(updatedChatsWithUser[currentProjectId] || []), errorMessage]
+      };
+      updateAndSyncMessages(finalUpdatedChats);
       if (soundEnabled) playVibeTone('error');
     } finally {
       setIsLoading(false);
@@ -277,6 +416,12 @@ export default function Home() {
     handleSendMessage(`In file ${filePath}: ${promptText}`);
   };
 
+  const handleToggleSound = () => {
+    const nextSound = !soundEnabled;
+    setSoundEnabled(nextSound);
+    handleUpdateUserProfile({ soundEnabled: nextSound });
+  };
+
   return (
     <div className="flex flex-col h-screen w-screen bg-[#070a14] text-slate-100 overflow-hidden font-sans select-none">
       {/* Top Header */}
@@ -285,11 +430,11 @@ export default function Home() {
         projects={projects}
         onSelectProject={(id) => setCurrentProjectId(id)}
         onOpenNewProjectModal={() => setIsNewProjectModalOpen(true)}
-        onOpenVPSModal={() => setActiveTab('vps')}
+        onOpenUserTab={() => setActiveTab('user')}
         selectedModel={selectedModel}
         onSelectModel={(m) => setSelectedModel(m)}
         soundEnabled={soundEnabled}
-        onToggleSound={() => setSoundEnabled(!soundEnabled)}
+        onToggleSound={handleToggleSound}
       />
 
       {/* Main Tab Content */}
@@ -342,22 +487,24 @@ export default function Home() {
           <LivePreview project={currentProject} soundEnabled={soundEnabled} />
         )}
 
-        {/* Tab 4: VPS Terminal */}
-        {activeTab === 'terminal' && (
-          <TerminalRunner project={currentProject} soundEnabled={soundEnabled} />
-        )}
-
-        {/* Tab 5: VPS Deploy Hub */}
-        {activeTab === 'vps' && (
-          <VPSHub
-            project={currentProject}
-            onUpdateEnvVars={(envVars) => {
-              const updatedProject = { ...currentProject, envVars };
-              saveProjectsState(
-                projects.map((p) => (p.id === currentProjectId ? updatedProject : p))
-              );
-            }}
+        {/* Tab 4: User Hub & Synced Chat History */}
+        {activeTab === 'user' && (
+          <UserTab
+            userProfile={userProfile}
+            onUpdateUserProfile={handleUpdateUserProfile}
+            projects={projects}
+            currentProjectId={currentProjectId}
+            onSelectProject={(id) => setCurrentProjectId(id)}
+            allChats={messages}
+            onClearChatHistory={handleClearChatHistory}
+            onForceSyncChats={handleForceSyncChats}
+            isSyncing={isSyncing}
+            lastSyncedAt={lastSyncedAt}
+            selectedModel={selectedModel}
+            onSelectModel={(m) => setSelectedModel(m)}
             soundEnabled={soundEnabled}
+            onToggleSound={handleToggleSound}
+            onOpenAgentTab={() => setActiveTab('agent')}
           />
         )}
       </main>

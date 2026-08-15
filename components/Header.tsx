@@ -6,12 +6,8 @@ import {
   Sparkles, 
   ChevronDown, 
   Plus, 
-  Server, 
-  Terminal, 
-  Cpu,
-  Wifi,
-  SlidersHorizontal,
-  Layers
+  User, 
+  Cpu
 } from 'lucide-react';
 import { playVibeTone } from '@/lib/audio';
 
@@ -20,7 +16,7 @@ interface HeaderProps {
   projects: Project[];
   onSelectProject: (id: string) => void;
   onOpenNewProjectModal: () => void;
-  onOpenVPSModal: () => void;
+  onOpenUserTab: () => void;
   selectedModel: ModelType;
   onSelectModel: (model: ModelType) => void;
   soundEnabled: boolean;
@@ -32,7 +28,7 @@ export function Header({
   projects,
   onSelectProject,
   onOpenNewProjectModal,
-  onOpenVPSModal,
+  onOpenUserTab,
   selectedModel,
   onSelectModel,
   soundEnabled,
@@ -178,17 +174,17 @@ export function Header({
           )}
         </div>
 
-        {/* VPS Hosting Hub Button */}
+        {/* User Hub & Profile Button */}
         <button
           onClick={() => {
-            onOpenVPSModal();
+            onOpenUserTab();
             if (soundEnabled) playVibeTone('tap');
           }}
-          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-slate-800/90 hover:bg-slate-700/80 border border-slate-700 text-slate-200 text-xs font-semibold transition-all active:scale-95"
-          title="VPS Self-Hosting & Deployment Hub"
+          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/30 text-cyan-300 text-xs font-semibold transition-all active:scale-95 shadow-sm"
+          title="User Profile & Synced Chat History"
         >
-          <Server className="w-3.5 h-3.5 text-cyan-400" />
-          <span className="hidden sm:inline">VPS Hub</span>
+          <User className="w-3.5 h-3.5 text-cyan-400" />
+          <span className="hidden sm:inline">User</span>
         </button>
       </div>
     </header>

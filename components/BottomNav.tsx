@@ -5,12 +5,11 @@ import {
   MessageSquareCode, 
   Code2, 
   Eye, 
-  Terminal, 
-  Server
+  User
 } from 'lucide-react';
 import { playVibeTone } from '@/lib/audio';
 
-export type TabType = 'agent' | 'editor' | 'preview' | 'terminal' | 'vps';
+export type TabType = 'agent' | 'editor' | 'preview' | 'user';
 
 interface BottomNavProps {
   activeTab: TabType;
@@ -49,16 +48,11 @@ export function BottomNav({
       badgeColor: 'bg-emerald-500'
     },
     {
-      id: 'terminal' as TabType,
-      label: 'Terminal',
-      icon: Terminal,
-      badge: null
-    },
-    {
-      id: 'vps' as TabType,
-      label: 'VPS Deploy',
-      icon: Server,
-      badge: null
+      id: 'user' as TabType,
+      label: 'User Hub',
+      icon: User,
+      badge: null,
+      badgeColor: 'bg-cyan-600'
     }
   ];
 

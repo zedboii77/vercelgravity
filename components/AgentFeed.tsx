@@ -74,7 +74,7 @@ export function AgentFeed({
           <div>
             <h2 className="text-lg font-bold text-slate-100 tracking-tight">Antigravity 2.0 Agent</h2>
             <p className="text-xs text-slate-400 mt-1 max-w-sm mx-auto leading-relaxed">
-              Mobile-first vibe coding runtime. Tap the quick chips below or speak your prompt to build, refactor, and deploy on your VPS.
+              Mobile-first vibe coding runtime. Tap the quick chips below or speak your prompt to build, refactor, and prepare your app for Vercel deployment.
             </p>
           </div>
 
@@ -87,9 +87,9 @@ export function AgentFeed({
             </div>
             <div className="p-3 rounded-2xl bg-slate-900/60 border border-slate-800/80">
               <div className="text-xs font-semibold text-emerald-400 flex items-center gap-1.5 mb-1">
-                <Terminal className="w-4 h-4" /> VPS Production Ready
+                <Terminal className="w-4 h-4" /> Vercel & Production Ready
               </div>
-              <p className="text-[11px] text-slate-400">Node.js, Docker, PM2 configs ready for self-hosting.</p>
+              <p className="text-[11px] text-slate-400">Export as ZIP bundle or deploy directly to Vercel in seconds.</p>
             </div>
           </div>
         </div>

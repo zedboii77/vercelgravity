@@ -16,13 +16,13 @@ export async function GET() {
       heapTotalMb: Math.round(memory.heapTotal / 1024 / 1024),
     },
     uptimeSeconds: Math.round(uptime),
-    vpsReady: true,
+    productionReady: true,
     capabilities: [
       'Gemini 3.7 Flash Agent',
-      'Mobile Keyboard Bar',
+      'Mobile Coding Assistant',
       'Live Web Sandbox',
-      'Virtual Terminal',
-      'Docker & PM2 Export'
+      'One-Click ZIP Export',
+      'Vercel Deployment Ready'
     ]
   });
 }

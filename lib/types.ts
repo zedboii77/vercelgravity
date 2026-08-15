@@ -66,10 +66,28 @@ export interface TerminalLog {
   timestamp: number;
 }
 
-export interface VibePromptPreset {
-  id: string;
-  label: string;
-  icon: string;
-  prompt: string;
-  category: 'feature' | 'fix' | 'design' | 'devops';
+export interface UserProfile {
+  name: string;
+  email: string;
+  avatarUrl?: string;
+  role: string;
+  vibeStyle: VibeStyle;
+  soundEnabled: boolean;
+  totalPromptsSent: number;
+  totalFilesGenerated: number;
+  joinedAt: number;
+  lastActiveAt: number;
+}
+
+export interface ChatSyncPayload {
+  projectId: string;
+  messages: ChatMessage[];
+  updatedAt: number;
+}
+
+export interface ServerSyncResponse {
+  success: boolean;
+  chats: Record<string, ChatMessage[]>;
+  lastSyncedAt: number;
+  messageCount: number;
 }
