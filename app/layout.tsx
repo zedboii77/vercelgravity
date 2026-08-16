@@ -9,12 +9,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'VibedCoding - Mobile Vibe Coder',
+  title: 'VibedCoding - Coding in your bed',
   description: 'A mobile-first agentic coding environment and web UI designed for vibe coding on your phone and live preview.',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'VibedCoding'
+    title: 'VibedCoding - Coding in your bed'
   },
 };
 

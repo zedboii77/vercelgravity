@@ -16,7 +16,7 @@ export const TRANSLATIONS = {
     navUserHub: 'User Hub',
     
     // Agent Feed
-    agentWelcomeTitle: 'VibedCoding Agent',
+    agentWelcomeTitle: 'VibedCoding - Coding in your bed',
     agentWelcomeDesc: 'Mobile-first vibe coding runtime. Tap quick chips below or dictate your prompt to create apps, refactor code, and test instantly.',
     chip1: '⚡ Optimize Mobile Layout',
     chip2: '🎵 Add Web Audio FX',
@@ -113,7 +113,7 @@ export const TRANSLATIONS = {
     navUserHub: 'Pusat Akun',
     
     // Agent Feed
-    agentWelcomeTitle: 'Agen VibedCoding',
+    agentWelcomeTitle: 'VibedCoding - Coding in your bed',
     agentWelcomeDesc: 'Lingkungan vibe coding mobile-first. Pilih chip instan di bawah atau diktekan prompt untuk membuat aplikasi dan menguji langsung.',
     chip1: '⚡ Optimasi Tampilan Ponsel',
     chip2: '🎵 Tambah Efek Web Audio',
