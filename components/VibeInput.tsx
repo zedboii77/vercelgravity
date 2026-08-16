@@ -14,16 +14,19 @@ import {
   Check
 } from 'lucide-react';
 import { VIBE_PRESETS } from '@/lib/templates';
-import { VibeStyle } from '@/lib/types';
+import { VibeStyle, Language } from '@/lib/types';
 import { playVibeTone } from '@/lib/audio';
+import { TRANSLATIONS } from '@/lib/translations';
 
 interface VibeInputProps {
   onSendMessage: (text: string, attachedImages?: string[], vibeStyle?: VibeStyle) => void;
   isLoading: boolean;
   soundEnabled: boolean;
+  language?: Language;
 }
 
-export function VibeInput({ onSendMessage, isLoading, soundEnabled }: VibeInputProps) {
+export function VibeInput({ onSendMessage, isLoading, soundEnabled, language = 'en' }: VibeInputProps) {
+  const t = TRANSLATIONS[language];
   const [inputText, setInputText] = useState('');
   const [isRecording, setIsRecording] = useState(false);
   const [attachedImages, setAttachedImages] = useState<string[]>([]);
@@ -227,7 +230,7 @@ export function VibeInput({ onSendMessage, isLoading, soundEnabled }: VibeInputP
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder={isRecording ? 'Listening to your voice prompt...' : 'Prompt Antigravity 2.0...'}
+            placeholder={isRecording ? t.recording : t.inputPlaceholder}
             rows={1}
             disabled={isLoading}
             className="w-full bg-transparent text-zinc-100 placeholder-zinc-500 text-xs sm:text-sm px-2 py-1.5 focus:outline-none resize-none max-h-32 leading-relaxed"

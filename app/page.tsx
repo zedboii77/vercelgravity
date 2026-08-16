@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { Project, ChatMessage, ModelType, ToolCallData, VibeStyle, UserProfile } from '@/lib/types';
+import { Project, ChatMessage, ModelType, ToolCallData, VibeStyle, UserProfile, Language } from '@/lib/types';
 import { STARTER_PROJECTS } from '@/lib/templates';
 import { Header } from '@/components/Header';
 import { BottomNav, TabType } from '@/components/BottomNav';
@@ -67,6 +67,7 @@ export default function Home() {
   const [currentProjectId, setCurrentProjectId] = useState<string>(STARTER_PROJECTS[0].id);
   const [activeTab, setActiveTab] = useState<TabType>('agent');
   const [selectedModel, setSelectedModel] = useState<ModelType>('gemini-3.7-flash');
+  const [language, setLanguage] = useState<Language>('en');
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
@@ -79,6 +80,7 @@ export default function Home() {
     role: 'Full-Stack Creator',
     vibeStyle: 'builder',
     soundEnabled: true,
+    language: 'en',
     totalPromptsSent: 14,
     totalFilesGenerated: 28,
     joinedAt: 1723750000000,
@@ -120,6 +122,11 @@ export default function Home() {
           setProjects(parsed);
         }
       }
+
+      const savedLang = localStorage.getItem('antigravity_language');
+      if (savedLang === 'en' || savedLang === 'id') {
+        setLanguage(savedLang as Language);
+      }
     } catch (e) {}
 
     // 2. Fetch server-synced chats
@@ -151,6 +158,9 @@ export default function Home() {
           if (userData.user) {
             setUserProfile((prev) => ({ ...prev, ...userData.user }));
             setSoundEnabled(userData.user.soundEnabled ?? true);
+            if (userData.user.language) {
+              setLanguage(userData.user.language);
+            }
           }
         }
       } catch (err) {
@@ -162,6 +172,22 @@ export default function Home() {
 
     loadServerData();
   }, [syncChatsToServer]);
+
+  // Handle language change
+  const handleSelectLanguage = (newLang: Language) => {
+    setLanguage(newLang);
+    setUserProfile((prev) => ({ ...prev, language: newLang }));
+    try {
+      localStorage.setItem('antigravity_language', newLang);
+    } catch (e) {}
+    handleUpdateUserProfile({ language: newLang });
+    if (soundEnabled) playVibeTone('tap');
+  };
+
+  const handleToggleLanguage = () => {
+    const nextLang = language === 'en' ? 'id' : 'en';
+    handleSelectLanguage(nextLang);
+  };
 
   // Persist projects state
   const saveProjectsState = (updatedProjects: Project[]) => {
@@ -450,7 +476,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col h-screen w-screen bg-black text-zinc-100 overflow-hidden font-sans">
+    <div className="flex flex-col h-screen w-screen bg-black text-zinc-100 overflow-hidden font-mono">
       {/* Top Header */}
       <Header
         currentProject={currentProject}
@@ -462,6 +488,8 @@ export default function Home() {
         onSelectModel={(m) => setSelectedModel(m)}
         soundEnabled={soundEnabled}
         onToggleSound={handleToggleSound}
+        language={language}
+        onToggleLanguage={handleToggleLanguage}
       />
 
       {/* Main Tab Content */}
@@ -483,11 +511,13 @@ export default function Home() {
               }}
               isLoading={isLoading}
               soundEnabled={soundEnabled}
+              language={language}
             />
             <VibeInput
               onSendMessage={handleSendMessage}
               isLoading={isLoading}
               soundEnabled={soundEnabled}
+              language={language}
             />
           </div>
         )}
@@ -532,6 +562,8 @@ export default function Home() {
             soundEnabled={soundEnabled}
             onToggleSound={handleToggleSound}
             onOpenAgentTab={() => setActiveTab('agent')}
+            language={language}
+            onSelectLanguage={handleSelectLanguage}
           />
         )}
       </main>
@@ -542,6 +574,7 @@ export default function Home() {
         onSelectTab={(tab) => setActiveTab(tab)}
         isRunning={true}
         soundEnabled={soundEnabled}
+        language={language}
       />
 
       {/* New Project Modal */}

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Project, ChatMessage, UserProfile, ModelType } from '@/lib/types';
+import { Project, ChatMessage, UserProfile, ModelType, Language } from '@/lib/types';
 import { 
   User, 
   Shield, 
@@ -15,9 +15,12 @@ import {
   VolumeX, 
   ChevronRight,
   Search,
-  CheckCircle2
+  CheckCircle2,
+  Languages,
+  Globe
 } from 'lucide-react';
 import { playVibeTone } from '@/lib/audio';
+import { TRANSLATIONS } from '@/lib/translations';
 
 interface UserTabProps {
   userProfile: UserProfile;
@@ -35,6 +38,8 @@ interface UserTabProps {
   soundEnabled: boolean;
   onToggleSound: () => void;
   onOpenAgentTab: () => void;
+  language?: Language;
+  onSelectLanguage?: (lang: Language) => void;
 }
 
 export function UserTab({
@@ -52,7 +57,9 @@ export function UserTab({
   onSelectModel,
   soundEnabled,
   onToggleSound,
-  onOpenAgentTab
+  onOpenAgentTab,
+  language = 'en',
+  onSelectLanguage
 }: UserTabProps) {
   const [activeSubTab, setActiveSubTab] = useState<'history' | 'profile' | 'preferences'>('history');
   const [searchQuery, setSearchQuery] = useState('');
@@ -61,6 +68,7 @@ export function UserTab({
   const [roleInput, setRoleInput] = useState(userProfile.role);
   const [confirmClearId, setConfirmClearId] = useState<string | null>(null);
   const [copiedNotification, setCopiedNotification] = useState<string | null>(null);
+  const t = TRANSLATIONS[language];
 
   const handleSaveProfile = () => {
     onUpdateUserProfile({
@@ -142,9 +150,9 @@ export function UserTab({
   });
 
   return (
-    <div className="flex-1 flex flex-col h-full bg-black overflow-y-auto p-2.5 sm:p-4 space-y-3 pb-24 text-zinc-100">
+    <div className="flex-1 flex flex-col h-full bg-black overflow-y-auto p-3 sm:p-4 space-y-3.5 pb-28 text-zinc-100">
       {/* User Header Profile Card */}
-      <div className="p-3 sm:p-4 rounded-2xl bg-zinc-950 border border-zinc-800 shadow-xl flex flex-col gap-2.5">
+      <div className="p-3.5 sm:p-4 rounded-2xl bg-zinc-950 border border-zinc-800 shadow-xl flex flex-col gap-2.5 shrink-0">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-2.5 min-w-0">
             <div className="relative shrink-0">
@@ -195,12 +203,12 @@ export function UserTab({
         </div>
       </div>
 
-      {/* Sub-Navigation Tabs */}
-      <div className="flex gap-1.5 overflow-x-auto no-scrollbar pb-1 border-b border-zinc-800">
+      {/* Sub-Navigation Segment Control */}
+      <div className="bg-zinc-950 p-1 rounded-2xl border border-zinc-800 flex gap-1 shrink-0">
         {[
-          { id: 'history', label: `Chats (${totalServerMessages})` },
-          { id: 'profile', label: 'Profile' },
-          { id: 'preferences', label: 'Settings' }
+          { id: 'history', label: `${t.tabChats} (${totalServerMessages})` },
+          { id: 'profile', label: t.tabProfile },
+          { id: 'preferences', label: t.tabSettings }
         ].map((tab) => (
           <button
             key={tab.id}
@@ -208,10 +216,10 @@ export function UserTab({
               setActiveSubTab(tab.id as any);
               if (soundEnabled) playVibeTone('tap');
             }}
-            className={`px-2.5 py-1.5 rounded-xl text-[11px] sm:text-xs font-semibold whitespace-nowrap transition-all ${
+            className={`flex-1 py-1.5 px-2 rounded-xl text-[11px] sm:text-xs font-semibold text-center transition-all ${
               activeSubTab === tab.id
-                ? 'bg-zinc-800 text-white border border-zinc-600 shadow-sm'
-                : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900'
+                ? 'bg-zinc-800 text-white shadow-sm border border-zinc-700'
+                : 'text-zinc-400 hover:text-zinc-200'
             }`}
           >
             {tab.label}
@@ -221,7 +229,7 @@ export function UserTab({
 
       {/* Notification Toast */}
       {copiedNotification && (
-        <div className="p-2 rounded-xl bg-zinc-900 border border-zinc-700 text-white text-[11px] flex items-center gap-1.5 animate-in fade-in duration-200">
+        <div className="p-2 rounded-xl bg-zinc-900 border border-zinc-700 text-white text-[11px] flex items-center gap-1.5 animate-in fade-in duration-200 shrink-0">
           <Check className="w-3.5 h-3.5 shrink-0" />
           <span className="truncate">{copiedNotification}</span>
         </div>
@@ -238,7 +246,7 @@ export function UserTab({
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search conversations..."
+                placeholder={t.searchConversations}
                 className="w-full bg-zinc-950 border border-zinc-800 rounded-xl pl-8 pr-2.5 py-1.5 text-[11px] sm:text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-600"
               />
             </div>
@@ -249,7 +257,7 @@ export function UserTab({
               title="Export all chat conversations to JSON"
             >
               <Download className="w-3 h-3 text-zinc-300" />
-              <span className="hidden xs:inline">Export All</span>
+              <span className="hidden xs:inline">{t.exportAll}</span>
             </button>
           </div>
 
@@ -451,6 +459,59 @@ export function UserTab({
       {/* TAB 3: VIBE PREFERENCES & SYSTEM SETTINGS */}
       {activeSubTab === 'preferences' && (
         <div className="space-y-3 animate-in fade-in duration-150">
+          {/* Language Selection Card */}
+          <div className="p-3 sm:p-4 rounded-xl bg-zinc-950 border border-zinc-800 space-y-3">
+            <span className="text-[11px] font-mono font-bold text-zinc-200 flex items-center gap-1.5">
+              <Languages className="w-3.5 h-3.5 text-zinc-400" />
+              {t.languageSetting}
+            </span>
+
+            <div className="space-y-1.5">
+              <label className="text-[11px] text-zinc-300 font-medium block">
+                {t.changeLanguage}
+              </label>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (onSelectLanguage) onSelectLanguage('en');
+                    if (soundEnabled) playVibeTone('tap');
+                  }}
+                  className={`p-2.5 rounded-xl text-left border transition-all flex flex-col justify-between ${
+                    language === 'en'
+                      ? 'bg-zinc-800 border-zinc-600 text-white font-semibold shadow-sm'
+                      : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-zinc-200'
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold">{t.languageEn}</span>
+                    {language === 'en' && <CheckCircle2 className="w-3.5 h-3.5 text-white" />}
+                  </div>
+                  <span className="text-[10px] text-zinc-500 mt-1">Default (US / Global)</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (onSelectLanguage) onSelectLanguage('id');
+                    if (soundEnabled) playVibeTone('tap');
+                  }}
+                  className={`p-2.5 rounded-xl text-left border transition-all flex flex-col justify-between ${
+                    language === 'id'
+                      ? 'bg-zinc-800 border-zinc-600 text-white font-semibold shadow-sm'
+                      : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-zinc-200'
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold">{t.languageId}</span>
+                    {language === 'id' && <CheckCircle2 className="w-3.5 h-3.5 text-white" />}
+                  </div>
+                  <span className="text-[10px] text-zinc-500 mt-1">Bahasa Indonesia</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
           <div className="p-3 sm:p-4 rounded-xl bg-zinc-950 border border-zinc-800 space-y-3">
             <span className="text-[11px] font-mono font-bold text-zinc-200 flex items-center gap-1.5">
               <Sliders className="w-3.5 h-3.5 text-zinc-400" />

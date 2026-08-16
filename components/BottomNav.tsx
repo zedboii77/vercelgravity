@@ -8,6 +8,8 @@ import {
   User
 } from 'lucide-react';
 import { playVibeTone } from '@/lib/audio';
+import { Language } from '@/lib/types';
+import { TRANSLATIONS } from '@/lib/translations';
 
 export type TabType = 'agent' | 'editor' | 'preview' | 'user';
 
@@ -17,6 +19,7 @@ interface BottomNavProps {
   pendingChangesCount?: number;
   isRunning?: boolean;
   soundEnabled: boolean;
+  language?: Language;
 }
 
 export function BottomNav({
@@ -24,32 +27,35 @@ export function BottomNav({
   onSelectTab,
   pendingChangesCount = 0,
   isRunning = false,
-  soundEnabled
+  soundEnabled,
+  language = 'en'
 }: BottomNavProps) {
+  const t = TRANSLATIONS[language];
+
   const tabs = [
     {
       id: 'agent' as TabType,
-      label: 'Agent 2.0',
+      label: t.navAgent,
       icon: MessageSquareCode,
       badge: pendingChangesCount > 0 ? `${pendingChangesCount}` : null,
       badgeColor: 'bg-white text-black'
     },
     {
       id: 'editor' as TabType,
-      label: 'Editor',
+      label: t.navEditor,
       icon: Code2,
       badge: null
     },
     {
       id: 'preview' as TabType,
-      label: 'Live Preview',
+      label: t.navPreview,
       icon: Eye,
       badge: isRunning ? 'Live' : null,
       badgeColor: 'bg-zinc-800 text-zinc-200 border border-zinc-700'
     },
     {
       id: 'user' as TabType,
-      label: 'User Hub',
+      label: t.navUserHub,
       icon: User,
       badge: null,
       badgeColor: 'bg-zinc-800 text-zinc-300'

@@ -66,6 +66,8 @@ export interface TerminalLog {
   timestamp: number;
 }
 
+export type Language = 'en' | 'id';
+
 export interface UserProfile {
   name: string;
   email: string;
@@ -73,6 +75,7 @@ export interface UserProfile {
   role: string;
   vibeStyle: VibeStyle;
   soundEnabled: boolean;
+  language?: Language;
   totalPromptsSent: number;
   totalFilesGenerated: number;
   joinedAt: number;

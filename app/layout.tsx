@@ -1,5 +1,12 @@
 import type { Metadata, Viewport } from 'next';
+import { Geist_Mono } from 'next/font/google';
 import './globals.css';
+
+const geistMono = Geist_Mono({
+  subsets: ['latin'],
+  variable: '--font-geist-mono',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'VibedCoding - Mobile Vibe Coder',
@@ -22,8 +29,8 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="dark">
-      <body suppressHydrationWarning className="bg-black text-zinc-100 antialiased overscroll-none">
+    <html lang="en" className={`dark ${geistMono.variable} ${geistMono.className}`}>
+      <body suppressHydrationWarning className="bg-black text-zinc-100 antialiased overscroll-none font-mono">
         {children}
       </body>
     </html>

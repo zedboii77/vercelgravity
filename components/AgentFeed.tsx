@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ChatMessage, ToolCallData } from '@/lib/types';
+import { ChatMessage, ToolCallData, Language } from '@/lib/types';
 import { 
   Bot, 
   User, 
@@ -19,6 +19,7 @@ import {
   Database
 } from 'lucide-react';
 import { playVibeTone } from '@/lib/audio';
+import { TRANSLATIONS } from '@/lib/translations';
 
 interface AgentFeedProps {
   messages: ChatMessage[];
@@ -27,6 +28,7 @@ interface AgentFeedProps {
   onOpenPreview: () => void;
   isLoading: boolean;
   soundEnabled: boolean;
+  language?: Language;
 }
 
 export function AgentFeed({
@@ -35,8 +37,10 @@ export function AgentFeed({
   onOpenEditorForFile,
   onOpenPreview,
   isLoading,
-  soundEnabled
+  soundEnabled,
+  language = 'en'
 }: AgentFeedProps) {
+  const t = TRANSLATIONS[language];
   const [expandedThinking, setExpandedThinking] = useState<Record<string, boolean>>({});
   const [expandedDiffs, setExpandedDiffs] = useState<Record<string, boolean>>({});
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -66,9 +70,9 @@ export function AgentFeed({
             <Sparkles className="w-6 h-6 text-white animate-pulse" />
           </div>
           <div>
-            <h2 className="text-sm sm:text-base font-bold text-white tracking-tight">VibedCoding Agent</h2>
+            <h2 className="text-sm sm:text-base font-bold text-white tracking-tight">{t.agentWelcomeTitle}</h2>
             <p className="text-[11px] sm:text-xs text-zinc-400 mt-1 max-w-sm mx-auto leading-relaxed">
-              Mobile-first vibe coding runtime. Tap the quick chips below or dictate your prompt to create apps, refactor code, and test instantly in live preview.
+              {t.agentWelcomeDesc}
             </p>
           </div>
 
